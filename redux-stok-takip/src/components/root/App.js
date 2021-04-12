@@ -1,12 +1,16 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
+import { Container } from "reactstrap";
+import Navi from "../navi/Navi";
+import Dashboard from "./Dashboard";
 
- class App extends Component {
+class App extends Component {
   render() {
     return (
-      <div>
-        
-      </div>
-    )
+      <Container>
+        <Navi />
+        <Dashboard/>
+      </Container>
+    );
   }
 }
 
