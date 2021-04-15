@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as categoryActions from "../../redux/actions/categoryActions";
 import { ListGroup, ListGroupItem } from "reactstrap";
+import {Badge} from  "reactstrap"
  
 
 class CategoryList extends Component {
@@ -10,10 +11,14 @@ class CategoryList extends Component {
     this.props.actions.getCategories();
   }
 
+  selectCategory = (category) =>{
+      this.props.actions.changeCategory(category);
+  }
+
   render() {
     return (
       <div>
-        <h3>Categories {this.props.categories.length} </h3>
+        <h3> <Badge color="warning">Categories</Badge></h3>
         <ListGroup>
           {this.props.categories.map(category => (
             <ListGroupItem active={category.id===this.props.currentCategory.id} onClick={()=>this.props.actions.changeCategory(category)} key={category.id}>
@@ -21,7 +26,7 @@ class CategoryList extends Component {
             </ListGroupItem>
           ))}
         </ListGroup>
-        <h5>Seçili Kategory : {this.props.currentCategory.categoryName}</h5>
+
       </div>
     );
   }
