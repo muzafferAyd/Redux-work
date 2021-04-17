@@ -14,6 +14,7 @@ class CategoryList extends Component {
   selectCategory = (category) => {
     this.props.actions.changeCategory(category);
     this.props.actions.getProducts(category.id);
+    console.log(category.id, "+", category)
   };
 
   render() {
@@ -27,7 +28,7 @@ class CategoryList extends Component {
           {this.props.categories.map((category) => (
             <ListGroupItem
               active={category.id === this.props.currentCategory.id}
-              onClick={() => this.props.actions.changeCategory(category)}
+              onClick={() => this.selectCategory(category)}
               key={category.id}
             >
               {category.categoryName}
