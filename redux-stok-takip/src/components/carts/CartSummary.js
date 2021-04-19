@@ -9,12 +9,15 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
+import {Link} from "react-router-dom"
+import { bindActionCreators } from "redux";
+import * as cartActions from "../../redux/actions/cartActions";
 
 class CartSummary extends Component {
   renderEmpty() {
     return (
       <NavItem>
-        <NavLink>Sepet Boş</NavLink>
+        <NavLink>Empty Cart</NavLink>
       </NavItem>
     );
   }
@@ -23,19 +26,27 @@ class CartSummary extends Component {
     return (
       <UncontrolledDropdown nav inNavbar>
         <DropdownToggle nav caret>
-          Your Cart
+          Your Cart - {this.props.cart.length}
         </DropdownToggle>
         <DropdownMenu right>
           {this.props.cart.map((cartItem) => (
             <DropdownItem key={cartItem.product.id}>
-              <Badge color="danger">X</Badge>
+              <Badge
+                color="danger"
+                onClick={() =>
+                  this.props.actions.removeFromCart(cartItem.product)
+                }
+              >
+                X
+              </Badge>
               {cartItem.product.productName}
+
               <Badge color="success">{cartItem.quantity}</Badge>
             </DropdownItem>
           ))}
 
           <DropdownItem divider />
-          <DropdownItem>aa</DropdownItem>
+          <DropdownItem><Link to={"/cart"}  color="info">Go To Cart</Link></DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>
     );
@@ -49,10 +60,18 @@ class CartSummary extends Component {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      removeFromCart: bindActionCreators(cartActions.removeFromCart, dispatch),
+    },
+  };
+}
+
 function mapStateToProps(state) {
   return {
     cart: state.cartReducer,
   };
 }
 
-export default connect(mapStateToProps)(CartSummary);
+export default connect(mapStateToProps, mapDispatchToProps)(CartSummary);
