@@ -11,10 +11,10 @@ class ProductList extends Component {
     this.props.actions.getProducts();
   }
 
-  addToCart = (product) =>{
-    this.props.actions.addToCart({quantity:1, product})
-    
-  }
+  addToCart = (product) => {
+    this.props.actions.addToCart({ quantity: 1, product })
+    alertify.success(product.productName + " added cart")
+  };
 
   render() {
     return (
@@ -44,7 +44,17 @@ class ProductList extends Component {
                 <td>{product.unitPrice}</td>
                 <td>{product.quantityPerUnit}</td>
                 <td>{product.unitsInStock}</td>
-                <th> <Button color="success" onClick={()=>this.addToCart(product)}>Add</Button> </th>
+                <th>
+                  {" "}
+                  <Button
+                    color="success"
+                    onClick={() => {
+                      this.addToCart(product)
+                    }}
+                  >
+                    Add
+                  </Button>{" "}
+                </th>
               </tr>
             ))}
           </tbody>
@@ -65,7 +75,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: {
       getProducts: bindActionCreators(productActions.getProducts, dispatch),
-      addToCart : bindActionCreators(cartActions.addToCart, dispatch)
+      addToCart: bindActionCreators(cartActions.addToCart, dispatch),
     },
   };
 }
